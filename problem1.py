@@ -1,4 +1,4 @@
-from data_structure import *
+from DS import *
 
 l1 = input("输入链表A").split()
 l2 = input("输入链表B").split()
