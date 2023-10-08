@@ -1,9 +1,21 @@
 # 想加上python倒着的用法
 
 class Node:
-    def __init__(self, value):
+    # 节点类就只有两个属性——值和引用
+    def __init__(self, value=0):
         self.value = value
         self.next = None
+
+    def __add__(self, other):
+        self.value += other
+        return self.value
+
+    def __radd__(self, other):
+        self.value += other
+        return self.value
+
+    def __repr__(self):
+        return f"[ value = {self.value} ] next -> {self.next}"
 
 
 class SingleLinkList:
@@ -114,13 +126,25 @@ class SingleLinkList:
         return self.get(index)
 
 
-class stack:
+class Stack:
+    # 栈的数据结构
     def __init__(self):
-        self.bottom = Node(None)
-        self.top = self.bottom
+        # 定义栈顶，栈底作为头节点，栈顶作为指针
+        self.top = Node(None)
+        self.length = 0
 
     def show_stack(self):
-        pass
+        print("top >> ", end="")
+        p = self.top
+        while p.next is not None:
+            p = p.next
+            print("{} >> ".format(p.value), end="")
+        print("bottom")
 
     def push(self, node: Node):
-        pass
+        # 入栈喵
+        node.next = self.top.next
+        self.top.next = node
+
+    def pop(self):
+        self.top.next = self.top.next.next
