@@ -24,7 +24,11 @@ class Node:
         return bool(self.value)
 
     def __eq__(self, other):
-        return self.value == other.value and self.next == other.next
+        try:
+            return self.value == other.value and self.next == other.next
+        except:
+            return self.value == other
+
 
     def __copy__(self):
         return Node(self.value)
@@ -48,7 +52,7 @@ class Node:
     def __getitem__(self, item):
         if item is slice:
             raise ValueError("Slice Do Not Support")
-        item = self.__get_index__(item)
+        item = self.__get__index__(item)
         p = self
         for i in range(item):
             p = p.next
@@ -57,7 +61,7 @@ class Node:
     def __setitem__(self, key, value):
         if key is slice:
             raise ValueError("Slice Do Not Support")
-        key = self.__get_index__(key)
+        key = self.__get__index__(key)
         p = self
         for i in range(key):
             p = p.next
@@ -66,7 +70,34 @@ class Node:
     def __del__(self):
         return "Target Down"
 
-    def __get_index__(self, item):
+    def __lt__(self, other):
+        try:
+            return self.value < other.value
+        except:
+            return self.value < other
+
+    def __le__(self, other):
+        try:
+            return self.value <= other.value
+        except:
+            return self.value <= other
+
+    def __gt__(self, other):
+        try:
+            return self.value > other.value
+        except:
+            return self.value > other
+
+    def __ge__(self, other):
+        try:
+            return self.value >= other.value
+        except:
+            return self.value >= other
+
+    def empty(self):
+        return self.next is None
+
+    def __get__index__(self, item):
         ls = len(self)
         if item > ls or item < -ls:
             raise ValueError(f"{item} Out of the range of [{-ls + 1}, {ls - 1}]")
@@ -79,7 +110,7 @@ class Node:
             self.push(Node(i))
 
     def remove(self, index):
-        index = self.__get_index__(index)
+        index = self.__get__index__(index)
         if index == 0:
             raise ValueError("Self can't be deleted!")
         index -= 1
@@ -99,7 +130,7 @@ class Node:
                 p = p.next
             p.next = node
         else:
-            index = self.__get_index__(index)
+            index = self.__get__index__(index)
             if index == 0:
                 raise ValueError("Self can't be inserted!")
             index -= 1
@@ -117,13 +148,66 @@ class Node:
 
     def clear(self):
         self.next = None
-        self.value = None
 
 
 class LinkList(Node):
     def __init__(self):
         super().__init__()
-        self.value = None
+        self.value = "Head Node"
+        self.head = self
+        self.length = 0
+
+    def insert(self, index, node):
+        node = self.__to__node__(node)
+        p = self.__get__index__(index)
+        p.next = node
+        self.length += 1
+
+    def remove(self, index):
+        p = self.__get__index__(index)
+        temp = p.next
+        p.next = p.next.next
+        temp.next = None
+        self.length -= 1
+        return temp
+
+    def search(self, value):
+        p = self.next
+        for i in range(self.length):
+            if value == self.value:
+                return i + 1
+            p = p.next
+        return -1
+
+    def __get__index__(self, index):
+        p = self
+        for i in range(index - 1):
+            p = p.next
+        return p
+
+    def __to__node__(self, node):
+        if node is not Node:
+            return Node(node)
+
+
+    def __be__valid__(self, index):
+        if index > (- self.length - 1):
+            index = (index + self.length + 1) % (self.length + 1)
+        else:
+            raise ValueError("index error!")
+
+    def __len__(self):
+        count = 0
+        p = self.next
+        while p is not None:
+            p = p.next
+            count += 1
+        self.length = count
+        return self.length
+
+
+
+
 
 
 class SingleLinkList:
