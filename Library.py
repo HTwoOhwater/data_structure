@@ -19,6 +19,8 @@ class Library(LinkList):
         index = []
         p = self.next
         for i in range(self.length):
+            if p is None:
+                break
             if value == p.value[key]:
                 print(f"ISBN：{p.value[0]:20} 书名：{p.value[1]:{chr(12288)}<15} 价格：{p.value[2]:10}")
                 count += 1
@@ -32,24 +34,40 @@ class Library(LinkList):
             return None
 
     def modify(self, index, value, key):
-        p = self.__get__index__(index)
+        p = self.__get__index__(index + 1)
         p.value[key] = str(value)
 
     def sort(self, key):
         for i in range(self.length):
             p = self.next
-            for i in range(self.length - 1):
+            for i in range(self.length - 2):
                 if eval(p.value[key]) > eval(p.next.value[key]):
                     p.value, p.next.value = p.next.value, p.value
                 p = p.next
 
+    def remove(self, index):
+        index = index - 1
+        super().remove(index)
+
+
 
 data = Library()
 with open(file="./data.txt", mode="r", encoding="UTF-8") as f:
-    f.readline().split()
     for i in f.readlines():
         temp = i.split()
         data.insert(data.length + 1, temp)
 
+
 print(data)
-data.search(32, 2)
+data.search(value="C语言程序设计", key=1)
+data.insert(index=data.length, node="9787811231557 Eclipse基础与应用 35".split())
+data.remove(index=data.length)
+print(data)
+data.modify(index=data.search(value="数据结构（C语言版）", key=1)[0], value="114514", key=2)
+print(data)
+data.sort(key=2)
+print(data)
+print(data.count())
+data.search(key=2, value=39)
+data.insert(data.length, ["1919810", "测试书籍123", "1e-6"])
+print(data)
