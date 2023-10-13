@@ -52,3 +52,4 @@ with open(file="./data.txt", mode="r", encoding="UTF-8") as f:
         data.insert(data.length + 1, temp)
 
 print(data)
+data.search(32, 2)
