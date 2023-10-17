@@ -6,9 +6,9 @@ class Library(LinkList):
         def __node__(node):
             if node is None:
                 return "End Of Data\n"
-            return f"{node.value[0]:20} {node.value[1]:{chr(12288)}<15} {node.value[2]:10}\n{__node__(node.next)}"
+            return f"{node.value[0]:20}\t\t{node.value[1]:{chr(12288)}<15}\t\t{node.value[2]:10}\n{__node__(node.next)}"
 
-        return f"{'ISBN':20} {'书名':{chr(12288)}<15} {'价格':10}\n{__node__(self.next)}"
+        return f"{'ISBN':20}\t\t{'书名':{chr(12288)}<15}\t\t{'价格':10}\n{__node__(self.next)}"
 
     def count(self):
         return f"目前图书馆书本数量为:{self.length}"
@@ -68,6 +68,3 @@ print(data)
 data.sort(key=2)
 print(data)
 print(data.count())
-data.search(key=2, value=39)
-data.insert(data.length, ["1919810", "测试书籍123", "1e-6"])
-print(data)
