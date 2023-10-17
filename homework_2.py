@@ -11,7 +11,7 @@ class DoubleStack: # 初始化、空、满、进、出
         self.empty_right = True
 
     def __repr__(self):
-        return (f"左栈{self.stack_left}--连接--{self.stack_right[::-1]}右栈\n"
+        return (f"左栈{self.stack_left + self.stack_right[::-1]}右栈\n"
                 f"左栈长{int(not self.empty_left) + self.top_left}, 右栈长{int(not self.empty_right) + self.top_right}")
 
     def push(self, position, value):
