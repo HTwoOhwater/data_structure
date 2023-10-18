@@ -92,3 +92,4 @@ for i in range(10):
     stack.pop(0)
     print(stack)
 print(stack.is_empty())
+
