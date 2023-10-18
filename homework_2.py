@@ -1,6 +1,3 @@
-from DS import *
-
-
 class DoubleStack: # 初始化、空、满、进、出
     def __init__(self):
         self.stack_left = [None for i in range(5)]
