@@ -11,7 +11,7 @@ class DoubleStack: # 初始化、空、满、进、出
         self.empty_right = True
 
     def __repr__(self):
-        return (f"左栈{self.stack_left + self.stack_right[::-1]}右栈\n"
+        return (f"左栈入栈方向->{self.stack_left + self.stack_right[::-1]}<-右栈入栈方向\n"
                 f"左栈长{int(not self.empty_left) + self.top_left}, 右栈长{int(not self.empty_right) + self.top_right}")
 
     def push(self, position, value):
@@ -75,7 +75,7 @@ class DoubleStack: # 初始化、空、满、进、出
         return temp
 
     def is_empty(self):
-        return self.empty_left == 0 and self.empty_right == 0
+        return self.empty_left is True and self.empty_right is True
 
     def is_full(self):
         return int(not self.empty_left) + int(not self.empty_right) + self.top_left + self.top_right >= 10
@@ -84,7 +84,11 @@ class DoubleStack: # 初始化、空、满、进、出
         return int(not self.empty_left) + self.top_left, int(not self.empty_right) + self.top_right
 
 
-a = DoubleStack()
+stack = DoubleStack()
 for i in "关注永雏塔菲喵谢谢喵":
-    a.push(0, i)
-print(a)
+    stack.push(0, i)
+print(stack)
+for i in range(10):
+    stack.pop(0)
+    print(stack)
+print(stack.is_empty())
