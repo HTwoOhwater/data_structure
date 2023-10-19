@@ -116,3 +116,4 @@ def calculate(s: str) -> float:  # 永远以加法为中心
 while True:
     s = input()
     print(calculate(s))
+
