@@ -69,7 +69,7 @@ def calculate(s: str) -> float:  # 永远以加法为中心
             sign = 1
 
     for c in s:  # 检测是否为数字
-        if c in "1234567890":
+        if c in "1234567890.":
            num = num * 10 + float(c)
         elif c in "+-":  # 检测为加减则要考虑符号问题了
             mul_div()
@@ -109,7 +109,8 @@ def calculate(s: str) -> float:  # 永远以加法为中心
             pass
     mul_div()
     stack.append(num * sign)
-    return sum(stack)
+    result = sum(stack)
+    return result
 
 
 while True:
