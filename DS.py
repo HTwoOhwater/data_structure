@@ -122,7 +122,6 @@ class LinkList(Node):
         else:
             raise ValueError("Index Error!")
 
-
     def __len__(self):
         count = 0
         p = self.next
@@ -180,3 +179,93 @@ class Queue(LinkList):
         self.length -= 1
         return temp
 
+
+class TreeNode:
+    def __init__(self, value=None):
+        self.value = value
+        self.lchild = None
+        self.rchild = None
+
+    def __repr__(self):
+        return f"[{self.lchild}<--{self.value}-->{self.rchild}]"
+
+    def insert(self, value, direction):
+        if isinstance(self, value):
+            value = TreeNode(value)
+        if not direction:
+            value.lchild = self.lchild
+            self.lchild = value.lchild
+        else:
+            value.rchild = self.rchild
+            self.rchild = value.rchild
+
+    def search_tree(self, value):
+        if value is not TreeNode:
+            value = TreeNode(value)
+        if self.value is None:
+            self.value = value.value
+        p = self
+        while True:
+            if p.value > value.value:
+                if p.lchild is None:
+                    p.lchild = value
+                    break
+                else:
+                    p = p.lchild
+            elif p.value < value.value:
+                if p.rchild is None:
+                    p.rchild = value
+                    break
+                else:
+                    p = p.rchild
+            else:
+                break
+
+    def preorder_traversal(self):
+        result = []
+        result.append(self.value)
+
+        def helper(node):
+            if node is not None:
+                nonlocal result
+                result.append(node.value)
+                helper(node.lchild)
+                helper(node.rchild)
+
+        helper(self.lchild)
+        helper(self.rchild)
+        return result
+
+    def inorder_traversal(self):
+        result = []
+
+        def helper(node):
+            if node is not None:
+                nonlocal result
+                helper(node.lchild)
+                result.append(node.value)
+                helper(node.rchild)
+
+        helper(self.lchild)
+        result.append(self.value)
+        helper(self.rchild)
+        return result
+
+    def postorder_traversal(self):
+        result = []
+
+        def helper(node):
+            if node is not None:
+                nonlocal result
+                helper(node.lchild)
+                helper(node.rchild)
+                result.append(node.value)
+
+        helper(self.lchild)
+        helper(self.rchild)
+        result.append(self.value)
+        return result
+
+    def __eq__(self, other):
+        return (self.preorder_traversal() == other.preorder_traversal() and self.inorder_traversal()
+                == other.inorder_traversal())
