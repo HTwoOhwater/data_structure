@@ -287,14 +287,3 @@ class TreeNode:
                 queue.append(temp.rchild)
             counter += 1
         pass
-
-    def homework(self):
-        def helper(root, s: str):
-            if root is None:
-                pass
-            else:
-                s += f"{root.value}->"
-                helper(root.lchild, s)
-                print(f"路径：{s[:-2]} 长度：{s[:-2].count('->')}")
-                helper(root.rchild, s)
-        helper(self, "")
