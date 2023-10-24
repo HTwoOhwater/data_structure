@@ -269,3 +269,32 @@ class TreeNode:
     def __eq__(self, other):
         return (self.preorder_traversal() == other.preorder_traversal() and self.inorder_traversal()
                 == other.inorder_traversal())
+
+    def generate(self, value: list):
+        self.lchild = None
+        self.rchild = None
+        self.value = None
+        queue = []
+        queue.append(self)
+        self.value = value.pop(0)
+        counter = 1
+        while len(value) // 2 ** counter:
+            for i in range(len(queue)):
+                temp = queue.pop(0)
+                temp.lchild = TreeNode(value.pop(0))
+                queue.append(temp.lchild)
+                temp.rchild = TreeNode(value.pop(0))
+                queue.append(temp.rchild)
+            counter += 1
+        pass
+
+    def homework(self):
+        def helper(root, s: str):
+            if root is None:
+                pass
+            else:
+                s += f"{root.value}->"
+                helper(root.lchild, s)
+                print(f"路径：{s[:-2]} 长度：{s[:-2].count('->')}")
+                helper(root.rchild, s)
+        helper(self, "")
