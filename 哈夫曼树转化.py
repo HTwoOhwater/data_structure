@@ -8,6 +8,7 @@ for char in chars:
     weights.append(s.count(char))
 result = [[chars[i], weights[i]] for i in range(len(chars))]
 
+
 def huffman(content):
     content = [TreeNode(i) for i in content]
     content = sorted(content, key=lambda x: x.value[1])
@@ -19,5 +20,6 @@ def huffman(content):
         content.append(temp)
         content = sorted(content, key=lambda x: x.value[1])
     return content[0]
+
 
 print(huffman(result))

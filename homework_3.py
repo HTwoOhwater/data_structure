@@ -18,6 +18,6 @@ tree2 = TreeNode()
 tree2.generate([i for i in range(7)])
 print(tree2 == tree1)
 print(tree2)
-helper(tree2, "")
 # 这是第八小题喵
+helper(tree2, "")
 

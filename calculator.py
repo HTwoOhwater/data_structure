@@ -57,6 +57,7 @@ def calculate(s: str) -> float:  # 永远以加法为中心
     stack = [0]
     num = 0.
     sign = 1
+
     def mul_div():
         nonlocal num
         nonlocal sign
