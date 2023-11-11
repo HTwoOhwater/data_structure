@@ -1,7 +1,7 @@
 from DS import TreeNode
 
 
-def calculator(root: TreeNode): # 1-2*4/6+5
+def calculator(root: TreeNode):
     if str(root.value).isdigit() or type(root.value) is float:
         return root.value
     else:
@@ -11,78 +11,74 @@ def calculator(root: TreeNode): # 1-2*4/6+5
             return calculator(root.lchild) - calculator(root.rchild)
         elif root.value in "*":
             return calculator(root.lchild) * calculator(root.rchild)
-        else:
-            return calculator(root.lchild) * calculator(root.rchild)
+        elif root.value in "/":
+            return calculator(root.lchild) / calculator(root.rchild)
 
+while True:
 
+    s = input("输入四则运算的算式喵：\n")
+    number = 0
+    HEAD = 0
+    POINTER = 1
+    stack = [[None, None]] # 先head，后pointer
+    # 构建函数
+    for i in s:
 
-s = input("输入四则运算的算式喵：\n")
-head = None
-number = 0
-pointer = None
-for i in s:
-    if i in "+-":
-        character = TreeNode(i)
-        if pointer is not None:
-            temp = TreeNode(1 / number) if pointer.value in "/" else TreeNode(number)
-            pointer.rchild = temp
-            character.lchild = head
-            head = character
-        elif head is not None:
-            temp = TreeNode(number)
-            if head.value in "*/":
-                pointer.rchild = temp
-                character.lchild = head
-                head = character
+        if i in "+-*/":
+            # 首先判断上一次运算
+            character = TreeNode(i)
+            num_temp = TreeNode(number) if type(number) is not TreeNode else number
+            if stack[-1][HEAD] is None:
+                stack[-1][HEAD] = character
+                stack[-1][POINTER] = stack[-1][HEAD]
+                stack[-1][POINTER].lchild = num_temp
+                number = 0
+                continue
+
             else:
-                head.rchild = temp
-                character.lchild = head
-                head = character
+                stack[-1][POINTER].rchild = num_temp
+
+            if i in "*/" and stack[-1][POINTER].value in "+-*": # 乘除
+
+                character.lchild = num_temp
+                stack[-1][POINTER].rchild = character
+                stack[-1][POINTER] = character
+
+            elif i in "*/" and stack[-1][POINTER].value in "/":
+                character.lchild = stack[-1][POINTER].lchild
+                character.rchild = stack[-1][POINTER].rchild
+                stack[-1][POINTER].lchild = character
+                stack[-1][POINTER].rchild = None
+
+            else: # 加减
+                character.lchild = stack[-1][HEAD]
+                stack[-1][HEAD] = character
+                stack[-1][POINTER] = stack[-1][HEAD]
+
+            number = 0
+
+        elif i in '1234567890':
+            number = 10 * number + int(i)
+
+        elif i in "(":
+            stack.append([None, None])
+
+        elif i in ")":
+            if stack[-1][POINTER] is not None:
+                stack[-1][POINTER].rchild = TreeNode(number)
+            number = stack[-1][HEAD] if type(number) is not TreeNode else number
+            stack.pop()
+
         else:
-            temp = TreeNode(number)
-            head = character
-            head.lchild = temp
-        pointer = None
-        number = 0
+            pass
 
-    elif i in "/*":
-
-        character = TreeNode(i)
-        if pointer is not None:
-            temp = TreeNode(1 / number) if pointer.value in "/" else TreeNode(number)
-        else:
-            temp = TreeNode(number)
-        if head is not None:
-            if pointer is not None:
-                pointer.rchild = character
-                pointer = pointer.rchild
-                pointer.lchild = temp
-            elif head.value in "*/":
-                 pointer.rchild = character
-                 pointer = pointer.rchild
-                 pointer.lchild = temp
-            else:
-                head.rchild = character
-                pointer = head.rchild
-                pointer.lchild = temp
-
-        else:
-            head = character
-            head.lchild = temp
-            pointer = head
-
-        number = 0
-
-    elif i in "1234567890":
-        number = 10 * number + int(i)
-
+    # 刚开始是括号，需要讨论
+    if stack[-1][HEAD] is not None:
+        stack[-1][POINTER].rchild = TreeNode(number) if type(number) is not TreeNode else number
     else:
-        pass
-if pointer is None:
-    head.rchild = TreeNode(number)
-else:
-    pointer.rchild = TreeNode(1 / number) if pointer.value in "/" else TreeNode(number)
+        stack[-1][HEAD] = number
+        stack[-1][POINTER] = stack[-1][HEAD]
 
-
-
-print(head, calculator(head))
+    print(stack[-1][HEAD])
+    print(calculator(stack[-1][HEAD]))
+    print(stack[-1][HEAD].inorder_traversal())

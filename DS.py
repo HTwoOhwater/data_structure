@@ -181,7 +181,7 @@ class Queue(LinkList):
 
 
 class TreeNode:
-    def __init__(self, value=None):
+    def __init__(self, value: object = None) -> object:
         self.value = value
         self.lchild = None
         self.rchild = None
